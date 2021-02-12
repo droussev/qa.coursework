@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="QA Course Work Tests" parallel="classes" thread-count="4">
+    <test name="Webpage Tests">
+        <packages>
+            <package name="com.coursework.tests.*"/>
+        </packages>
+    </test>
+</suite>
