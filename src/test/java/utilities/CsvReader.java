@@ -9,11 +9,11 @@ import java.util.List;
 
 public class CsvReader {
 
-    public static Object[][] getCSVDataWithHeader(String fileName) throws IOException, CsvException {
+    public static <split_record> Object[][] getCSVDataWithHeader(String fileName) throws IOException, CsvException {
+
         try (CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
             List<String[]> csvData = csvReader.readAll();
             return csvData.toArray(new Object[0][]);
         }
     }
 }
-

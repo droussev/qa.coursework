@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class StatisticsPage extends BasePage {
 
-    @FindBy(xpath = "//table//tr//td//span[text()='Price/Book']/ancestor::td/following-sibling::td")
+    @FindBy(xpath = "//span[text()='Price/Book']/ancestor::td/following-sibling::td")
     private WebElement priceOverBookMostRecentQuarter;
 
     public StatisticsPage(WebDriver driver) {

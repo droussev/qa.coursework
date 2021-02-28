@@ -7,17 +7,15 @@ import com.opencsv.exceptions.CsvException;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import utilities.CsvReader;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
-
 @Slf4j
-public class StockInformationTest extends BasePageTest {
+public class StockInformationTest extends BaseTest {
 
-    @DataProvider(name = "stock-data")
+    @DataProvider(name = "stock-data", parallel = true)
     public static Object[][] dataProviderFromFile() throws IOException, CsvException {
         return CsvReader.getCSVDataWithHeader("src/test/resources/stockData0.csv");
     }
@@ -25,16 +23,15 @@ public class StockInformationTest extends BasePageTest {
     @Test(dataProvider = "stock-data")
     public void testData(String companyName, String dividendAndYield, String priceOverBookMRQ) {
 
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(drivers.get(Thread.currentThread().getId()));
         homePage.acceptCookiesPolicy();
-        assertTrue(homePage.isInitialized());
 
+        //soft asserts are used as stock information is quite volatile
         SearchResultPage searchResultPage = homePage.search(companyName);
-        assertTrue(searchResultPage.isInitialized());
-        assertEquals(searchResultPage.getDividendAndYield(), dividendAndYield);
+        new SoftAssert().assertEquals(searchResultPage.getDividendAndYield(), dividendAndYield);
 
         StatisticsPage statisticsPage = searchResultPage.clickStatistics();
-        assertTrue(statisticsPage.isInitialized());
-        assertEquals(statisticsPage.getPriceOverBookMRQ(), priceOverBookMRQ);
+        new SoftAssert().assertEquals(statisticsPage.getPriceOverBookMRQ(), priceOverBookMRQ);
+
     }
 }

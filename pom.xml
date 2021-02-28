@@ -7,8 +7,8 @@
     <groupId>org.example</groupId>
     <artifactId>QACourseWork</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <properties>
 
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -22,7 +22,6 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Logging libraries -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -66,16 +65,17 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                    </configuration>
                     <version>3.8.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-
                     <version>2.22.1</version>
                     <configuration>
-                        <suiteXmlFiles>testng.xml</suiteXmlFiles>
-                        <suiteXmlFiles>suites-test-testng.xml</suiteXmlFiles>
+                        <suiteXmlFiles>src/test/suites/suite1.xml</suiteXmlFiles>
                     </configuration>
                 </plugin>
                 <plugin>

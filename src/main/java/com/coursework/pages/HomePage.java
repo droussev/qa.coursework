@@ -1,53 +1,49 @@
 package com.coursework.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 public class HomePage extends BasePage {
 
-    @FindBy(xpath = "//div[@class = 'menu-section']//a[@id='header-signin-link']")
+    //a[contains(text(),'Sign in')]
+    @FindBy(id = "header-signin-link")
     private WebElement loginLink;
 
-    @FindBy(xpath = "//input[@id='yfin-usr-qry']")
+    //form/input[@type='text']
+    @FindBy(id = "yfin-usr-qry")
     private WebElement searchBar;
+
+    //button[@name = 'agree']
+    @FindBy(name = "agree")
+    private WebElement cookieConsentButton;
+
+    @FindBy(xpath = "//li[@data-pindex=1 and @data-type='quotes']") //should give us the top element of the search bar
+    private WebElement dropDownSuggestedItem;
 
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean isInitialized() {
-        return loginLink.isDisplayed();
-    }
-
     public void acceptCookiesPolicy() {
-        try {
-            driver.findElement(By.name("agree")).click();
-        } catch (NoSuchElementException e) {
-            //do nothing
+        List<WebElement> consentPage = driver.findElements(By.id("consent-page"));
+        if (consentPage.size() != 0) {
+            cookieConsentButton.click();
         }
-        //driver.switchTo().defaultContent();
     }
 
     public SignInPage signIn() {
-        this.loginLink.click();
+        loginLink.click();
         return new SignInPage(driver);
     }
 
-
     public SearchResultPage search(String query) {
-        String xpath = "//ul//li[starts-with(@class, 'modules_link') and @data-pindex=1 and contains(@title,'QUERY')]";
-        this.searchBar.clear();
-        this.searchBar.sendKeys(query);
-        WebElement dropDownSuggestedItem = driver.findElement(By.xpath(xpath.replace("QUERY", query)));
-        WebDriverWait wait = new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.visibilityOf(dropDownSuggestedItem));
+        searchBar.clear();
+        searchBar.sendKeys(query);
         dropDownSuggestedItem.click();
         return new SearchResultPage(driver);
     }
-
 }

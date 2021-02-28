@@ -11,12 +11,12 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class WebDriverProvider {
-    private static WebDriver driver;
     private static String driverPropertiesFile;
     private static String browser;
     private static String url;
@@ -39,7 +39,7 @@ public class WebDriverProvider {
 
     public static WebDriver getWebDriver(String... options) {
 
-        if (options.length == 1) { //if only one string is passed use it as file
+        if (options.length == 1) { //if only one string is passed use it as file name
             driverPropertiesFile = options[0];
             getDriverProperties();
         } else if (options.length == 4) {
@@ -48,6 +48,7 @@ public class WebDriverProvider {
             browserOptions = options[2].split(" ");
             implicitWait = Integer.parseInt(options[3]);
         } else throw new UnsupportedOperationException();
+        WebDriver driver = null;
         switch (browser) {
             case "Firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -64,10 +65,8 @@ public class WebDriverProvider {
             default:
                 throw new UnsupportedOperationException();
         }
-        if (driver != null) {
-            driver.manage().timeouts().implicitlyWait(implicitWait, TimeUnit.SECONDS);
-            driver.get(url);
-        }
+        driver.manage().timeouts().implicitlyWait(implicitWait, TimeUnit.SECONDS);
+        driver.get(url);
         return driver;
     }
 }

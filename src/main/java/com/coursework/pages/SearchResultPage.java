@@ -8,7 +8,7 @@ public class SearchResultPage extends BasePage {
     @FindBy(xpath = "//span[text()='Forward Dividend & Yield']/ancestor::tr/td[contains(text(),'(')]")
     private WebElement forwardDividendAndYield;
 
-    @FindBy(xpath = "//a//span[text()='Statistics']")
+    @FindBy(xpath = "//span[text()='Statistics']")
     private WebElement statisticsLink;
 
     public SearchResultPage(WebDriver driver) {
@@ -22,9 +22,5 @@ public class SearchResultPage extends BasePage {
     public StatisticsPage clickStatistics() {
         statisticsLink.click();
         return new StatisticsPage(driver);
-    }
-
-    public boolean isInitialized() {
-        return statisticsLink.isDisplayed();
     }
 }
