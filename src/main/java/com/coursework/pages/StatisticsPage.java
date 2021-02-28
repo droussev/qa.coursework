@@ -16,8 +16,5 @@ public class StatisticsPage extends BasePage {
     public String getPriceOverBookMRQ() {
         return priceOverBookMostRecentQuarter.getText();
     }
-
-    public boolean isInitialized() {
-        return priceOverBookMostRecentQuarter.isDisplayed();
-    }
+    
 }
